@@ -13,6 +13,9 @@ RUN npm install
 # Copy all other source code
 COPY . .
 
+# Set environment variables here
+ENV MONGO_URI=mongodb+srv://Admin:mDb0SQNcyMBcKioh@cluster0.aievnvs.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+
 # Expose the port your app runs on
 EXPOSE 5000
 
