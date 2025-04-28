@@ -7,7 +7,7 @@ COPY package.json package-lock.json ./
 RUN npm install
 
 COPY . .
-ENV NODE_OPTIONS="--max-old-space-size=2048"
+ENV NODE_OPTIONS="--max-old-space-size=4096"
 RUN npm run build
 
 # Step 2: Serve the React Build
