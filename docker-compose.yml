@@ -1,0 +1,40 @@
+version: "3"
+services:
+  frontend:
+    build:
+      context: ./frontend  # Path to your frontend directory
+    ports:
+      - "3000:80"  # Exposing port 3000 on the host to port 80 in the container
+    networks:
+      - app-network
+    depends_on:
+      - backend  # Ensures backend starts before frontend
+    environment:
+      - REACT_APP_API_URL=http://backend:5000  # Backend API URL for the frontend
+
+  backend:
+    build:
+      context: ./backend  # Path to your backend directory
+    ports:
+      - "5000:5000"  # Exposing port 5000 on the host to port 5000 in the container
+    networks:
+      - app-network
+    environment:
+      - MONGO_URL=mongodb+srv://Admin:mDb0SQNcyMBcKioh@cluster0.aievnvs.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+      - PORT=5000  # Backend port to run on inside the container
+
+  mongo:
+    image: mongo:latest  # This is not necessary if you're using MongoDB Atlas as you're doing
+    networks:
+      - app-network
+    ports:
+      - "27017:27017"  # Exposing MongoDB on the host (not needed if using Atlas)
+    volumes:
+      - mongo-data:/data/db  # Persist data (optional)
+
+networks:
+  app-network:
+    driver: bridge  # Docker bridge network for communication between containers
+
+volumes:
+  mongo-data:  # Defining a volume for MongoDB data (optional)
